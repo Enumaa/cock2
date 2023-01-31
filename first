@@ -1,0 +1,72 @@
+local cd = false
+local tool = Instance.new("Tool")
+tool.Name = "Blast"
+local part = Instance.new("Part")
+part.CanCollide = false
+part.Anchored = false
+part.Name = "Handle"
+part.Parent = tool
+tool.Parent = owner.Backpack
+local Player = owner
+local Character = owner.Character
+part.Size = Vector3.new(0.33,0.33,0.33)
+
+tool.Activated:Connect(function()
+	
+	if cd == true then return end
+		cd = true
+	
+	Character.Humanoid.WalkSpeed = 0
+	Character.Humanoid.JumpPower = 0
+	
+	task.wait(1)
+	
+	local par = Instance.new("Part")
+	par.Parent = workspace
+	par.Shape = Enum.PartType.Cylinder
+	par.Size = Vector3.new(65,65,0.001)
+	par.Anchored = true
+	par.CanCollide = false
+	par.CFrame = Character.HumanoidRootPart.CFrame * CFrame.new(0,0,-65) * CFrame.Angles(0,80,0)
+	
+	game:GetService("TweenService"):Create(par, TweenInfo.new(1.5), {Size = par.Size + Vector3.new(0,0,15)}):Play()
+	
+	NS([[local Brick = script.Parent --Change To Brick
+local speed = 0.25 --Change to speed you want
+while true do
+	for i = 0,1,0.001*speed do
+		Brick.Color = Color3.fromHSV(i,1,1) --creates a color using i
+		wait()
+	end
+end]], par)
+	
+	NS([[script.Parent.Touched:Connect(function(Hit)
+		
+		if Hit.Parent:FindFirstChild("Humanoid") then
+			Hit.Parent:Destroy()
+		end
+	end)]], par)
+	
+	NS([[												
+	
+	while true do
+	
+	local thing = Instance.new("Sound")
+	thing.SoundId = "rbxassetid://3140268287"
+	thing.Parent = script.Parent
+	thing:Play()
+	
+	task.wait(0.35)
+	
+	]], par)
+	
+	game.Debris:AddItem(par,4)
+	
+	task.wait(4)
+	
+	cd = false
+	
+	Character.Humanoid.WalkSpeed = 16
+	Character.Humanoid.JumpPower = 50
+	
+end)
