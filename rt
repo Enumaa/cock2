@@ -1,0 +1,34 @@
+local cd = false
+local tool = Instance.new("Tool")
+tool.Name = "Blast"
+local part = Instance.new("Part")
+part.CanCollide = false
+part.Anchored = false
+part.Name = "Handle"
+part.Parent = tool
+tool.Parent = owner.Backpack
+local Player = owner
+local Character = owner.Character
+part.Size = Vector3.new(0.33,0.33,0.33)
+
+tool.Activated:Connect(function()
+	
+	for i = 1,10 do
+	
+	local part = Instance.new("Part")
+	part.Parent = workspace
+	part.Anchored = true
+	part.CanCollide = false
+		part.Transparency = 0.7
+		part.CFrame = Character.HumanoidRootPart.CFrame * CFrame.new(0,0,-i * 10)
+		
+		local explode = Instance.new("Explosion")
+		explode.Position = part.Position
+		explode.Parent = workspace
+		explode.BlastRadius = 150
+		explode.BlastPressure = 150
+		
+		task.wait(0.1)
+	
+	end
+end)
