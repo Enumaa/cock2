@@ -1,0 +1,185 @@
+local Player = owner
+local Character = Player.Character
+
+local bell = Instance.new("Part")
+bell.Name = "Bell"
+bell.Parent = workspace
+bell.CFrame = Character.HumanoidRootPart.CFrame * CFrame.new(1.1,-1.2,0) * CFrame.Angles(0,0,-25)
+bell.Size = Vector3.new(0.463, 0.615, 0.463)
+bell.CanCollide = false
+bell.Anchored = false
+bell.Massless = true
+bell.BrickColor = BrickColor.new("Earth blue")
+bell.Material = Enum.Material.Metal
+local mesh = Instance.new("SpecialMesh")
+mesh.MeshId = "rbxassetid://6747830283"
+mesh.TextureId = "rbxassetid://629019562"
+mesh.Parent = bell
+local w = Instance.new("WeldConstraint")
+w.Parent = bell
+w.Part0 = bell
+w.Part1 = Character.HumanoidRootPart
+local sfx = Instance.new("Sound")
+sfx.Name = "Chime"
+sfx.SoundId = "rbxassetid://5226834046"
+sfx.RollOffMaxDistance = 300
+sfx.Volume = 0.5
+local thing = Instance.new("PitchShiftSoundEffect")
+thing.Priority = 0
+thing.Octave = 1.057
+thing.Parent = sfx
+sfx.Parent = bell
+local Particle = Instance.new("ParticleEmitter")
+Particle.Name = "ResFlame"
+Particle.Brightness = 1
+Particle.Color = ColorSequence.new(Color3.new(255,255,255))
+Particle.Size = NumberSequence.new({NumberSequenceKeypoint.new(0,0.75),NumberSequenceKeypoint.new(1,0)})
+Particle.Enabled = false
+Particle.Texture = "http://www.roblox.com/asset/?id=1746891745"
+Particle.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0,0),NumberSequenceKeypoint.new(0.794,0),NumberSequenceKeypoint.new(1,1)})
+Particle.Lifetime = NumberRange.new(1)
+Particle.Rate = 100
+Particle.Rotation = NumberRange.new(-360,360)
+Particle.RotSpeed = NumberRange.new(0)
+Particle.Speed = NumberRange.new(2.5)
+Particle.Drag = 10
+Particle.TimeScale = 1
+Particle.Parent = bell
+
+NLS([[
+
+script.Name = "InputHandler"
+
+local UserInputService = game:GetService('UserInputService')
+
+UserInputService.InputBegan:Connect(function(input, gameProcessedevent)
+	
+	if gameProcessedevent then return end
+	
+	if input.KeyCode == Enum.KeyCode.C then
+		
+		script:WaitForChild("Remote"):FireServer()
+		
+	end
+end)
+									]], Character)
+
+local Remote = Instance.new("RemoteEvent")
+Remote.Name = "Remote"
+Remote.Parent = Character
+
+NS([[
+
+Character.Remote.OnServerEvent:Connect(function(Player)
+
+local bell = Player.Character.Bell
+
+local sfx = Bell.Chime
+local part = Bell.ResFlame
+
+part.Enabled = true
+sfx:Play()
+
+task.wait(0.1)
+
+part.Enabled = false
+
+for i,v in pairs(workspace:GetChildren()) do
+
+if v:FindFirstChild("Humanoid") then
+
+	local MagnitudeInStuds = (v.HumanoidRootPart.Position - Player.Character.HumanoidRootPart.Position).Magnitude
+
+if MagnitudeInStuds <= 17 then
+
+	NS([[ 
+	
+	local target = script.Parent
+	
+	local rand2222
+	
+	local thingieeeeeee
+	
+	for i = 1,6 do
+	
+	rand2222 = math.random(1,3)
+	if rand2222 == 1 then
+	thingieeeeeee = 0.2
+	elseif rand2222 == 2 then
+	thingieeeeeee = 0.1
+	elseif rand2222 == 3 then
+	thingieeeeeee = 0.4
+	end
+	
+	local bub = Instance.new("Sound")
+	bub.SoundId = "rbxassetid://9114382576"
+	bub.PlaybackSpeed = 0.8
+	bub.Parent = target.HumanoidRootPart
+	bub:Play()
+	game.Debris:AddItem(bub,5)
+	
+	local buble = Instance.new("Part")
+buble.Shape = Enum.PartType.Ball
+buble.Size = Vector3.new(0.001,0.001,0.001)
+buble.Color = script.Parent.Head.Color
+buble.Anchored = false
+buble.CanCollide = false
+buble.Massless = true
+buble.Parent = workspace
+
+local rand1 = math.random(1,2)
+local ran2 = math.random(1,2)
+local rand3 = math.random(1,2)
+
+buble.CFrame = script.Parent.Head.CFrame * CFrame.new(rand1,ran2,rand3)
+local w = Instance.new("WeldConstraint")
+w.Parent = buble
+w.Part0 = buble
+w.Part1 = script.Parent.Head
+
+game:GetService("TweenService"):Create(buble, TweenInfo.new(0.5), {Size = Vector3.new(1,1,1)}):Play()
+
+task.wait(thingieeeeeee)
+	
+	end
+	
+	target.Head.Transparency = 1
+	for i,v in pairs(target.Head:GetChildren()) do
+	if v.ClassName ~= "SpecialMesh" then
+	v:Destroy()
+	end
+	end
+	for i,v in pairs(target:GetChildren()) do
+	if v:IsA("Accessory") then
+	v:Destroy()
+	end
+	end
+	
+	local explodesound = Instance.new("Sound")
+	explodesound.SoundId = "rbxassetid://6148096445"
+	explodesound.Volume = 0.1
+	local abc = Instance.new("DistortionSoundEffect")
+	abc.Level = 1
+	abc.Parent = explodesound
+	explodesound:Play()
+	game.Debris:AddItem(explodesound,5)
+	
+	local particle = Instance.new("ParticleEmitter")
+particle.Color = ColorSequence.new(Color3.new(0.184314, 0, 0))
+particle.Size = 1
+particle.Texture = "http://www.roblox.com/asset/?id=246689799"
+particle.Lifetime = NumberRange.new(0.25)
+particle.Rate = 90
+particle.Speed = NumberRange.new(15)
+particle.Parent = target.Head
+particle.Enabled = true
+
+task.wait(1)
+
+target.Humanoid:Destroy()
+	
+end
+end
+end
+
+]], Remote)
